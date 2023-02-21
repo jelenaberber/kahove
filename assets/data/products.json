@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "categoryId": "1",
+    "name": "Van Gogh Portrait",
+    "price": 200,
+    "inStock": true,
+    "img": {
+      "src": "assets/img/fluffy_scream.jpg",
+      "alt": ""
+    },
+    "shipping": 0
+  },
+  {
+    "id": "1",
+    "categoryId": "1",
+    "name": "Van Gogh Portrait",
+    "price": 180,
+    "inStock": true,
+    "img": {
+      "src": "assets/img/fluffy_scream.jpg",
+      "alt": ""
+    },
+    "shipping": 0
+  },
+  {
+    "id": "1",
+    "categoryId": "1",
+    "name": "Van Gogh Portrait",
+    "price": 25,
+    "inStock": true,
+    "img": {
+      "src": "assets/img/fluffy_scream.jpg",
+      "alt": ""
+    },
+    "shipping": 0
+  },
+  {
+    "id": "1",
+    "categoryId": "2",
+    "name": "Van Gogh Portrait",
+    "price": 25,
+    "inStock": true,
+    "img": {
+      "src": "assets/img/fluffy_scream.jpg",
+      "alt": ""
+    },
+    "shipping": 0
+  },
+  {
+    "id": "1",
+    "categoryId": "2",
+    "name": "Van Gogh Portrait",
+    "price": 25,
+    "inStock": true,
+    "img": {
+      "src": "assets/img/fluffy_scream.jpg",
+      "alt": ""
+    },
+    "shipping": 0
+  }
+]

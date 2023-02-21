@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name" : "Home",
+    "src" : "index.html"
+  },
+  {
+    "id": 2,
+    "name" : "Artworks",
+    "src" : "artworks.html"
+  },
+  {
+    "id": 3,
+    "name" : "Contact",
+    "src" : "contact.html"
+  },
+  {
+    "id": 4,
+    "name" : "Author",
+    "src" : "author.html"
+  }
+]
