@@ -27,7 +27,7 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="nav">
             <!--ispis-->
           </ul>
-          <a class="d-flex" href="basket.html">
+          <a class="d-flex" href="cart.html">
             <i class="fa-solid fa-basket-shopping basket"></i>
           </a>
         </div>
@@ -42,28 +42,18 @@
     <span class="dot mb-5"></span>
     <div class="row d-flex justify-content-start">
       <div class="col-2 d-flex flex-column mx-4">
-        <select class="form-select mb-5" id="price">
+        <select class="form-select mb-2" id="price">
         <!--ispis cena-->
         </select>
-        <select class="form-select mb-5" id="categories">
-          <!--ispis kategorija-->
-        </select>
-        <div class="col-12">
-          <h6>prikazi</h6>
-          <input type="radio" name="rb"/>
-          <label>dostupne proizvode</label><br/>
-          <input type="radio" name="rb"/>
-          <label>sve proizvode</label>
+        <div class="col-12 mt-3 d-flex flex-column mb-3" id="categories">
+        <!--Ispis kategorije-->
         </div>
-        <div class="col-12 mt-3">
-          <h6>prikazi</h6>
-          <input type="radio" name="rb"/>
-          <label>free shipping</label><br/>
-          <input type="radio" name="rb"/>
-          <label>sve proizvode</label>
+        <div class="col-12" id="available">
+        </div>
+        <div class="col-12 mt-3" id="shipping">
         </div>
       </div>
-      <div class="arts d-flex flex-wrap col-8">
+      <div class="arts d-flex flex-wrap col-9 justify-content-around">
         <!--Ispis-->
       </div>
 
@@ -91,9 +81,9 @@
 
 <footer>
   <div class="container-fluid blue mt-5 py-5">
-    <div class="row d-flex justify-content-center" id="footer">
-      <div class="col-10 d-flex justify-content-around fut" id="menu"></div>
-      <div class="col-10 d-flex justify-content-around fut mt-5" id="important"></div>
+    <div class="row d-flex justify-content-start flex-column align-items-center" id="footer">
+      <div class="col-6 d-flex justify-content-around fut" id="menu"></div>
+      <div class="col-6 d-flex justify-content-around fut mt-5" id="important"></div>
 
     </div>
   </div>
