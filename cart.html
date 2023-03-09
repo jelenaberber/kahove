@@ -39,6 +39,39 @@
 </header>
 <main>
 
+    <div class="container-fluid mt-5" id="print">
+        <!--Ispis korpa-->
+    </div>
+    <div class="col-12 d-flex justify-content-center mt-5">
+        <button class="col-2 btn button" id="deleteAll">Delete all products</button>
+    </div>
+
+    <div class="container mt-5" id="form">
+        <div class="col-12 d-flex justify-content-between">
+            <form id="order" class="col-6 py-5" action="#" method="get">
+                <div class="container-fluid col-12">
+                    <div>
+                        <input type="text" name="name" id="name" class="container brd-none  py-3" placeholder="Name">
+                        <span id="spanName" class="span"></span>
+                    </div>
+                    <div>
+                        <input type="email" name="email" id="email" class="container brd-none   py-3 mt-2" placeholder="Email">
+                        <span id="spanEmail" class="span"></span>
+                    </div>
+                    <div>
+                        <input type="text" id="address" class="container brd-none py-3 mt-2" placeholder="Address and city">
+                        <span id="spanAddress" class="span"></span>
+                    </div>
+                    <div class="d-flex align-items-center flex-column py-3 mt-5">
+                        <button class="btn button" id="buy">Order</button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-4 purple" id="bill">
+                <!--Ispis racun-->
+            </div>
+        </div>
+    </div>
 </main>
 
 <footer>

@@ -5,54 +5,46 @@
     "name": "Fluffy scream",
     "price": 200,
     "inStock": false,
+    "sold" : 44,
     "img": {
       "src": "assets/img/fluffy_scream.jpg",
       "alt": "Fluffy scream"
     },
-    "shipping": 1
-  },
-  {
-    "id": "2",
-    "categoryId": "1",
-    "name": "SuperNova Bloq Art",
-    "price": 180,
-    "inStock": true,
-    "img": {
-      "src": "assets/img/SuperNovaBloqArt.jpg",
-      "alt": "SuperNova Bloq Art"
-    },
-    "shipping": 1
+    "shipping": 0
   },
   {
     "id": "3",
     "categoryId": "1",
-    "name": "Summer Time Bloq Art",
-    "price": 25,
+    "name": "Summer Time",
+    "price": 250,
     "inStock": false,
+    "sold" : 56,
     "img": {
       "src": "assets/img/summer_time_bloq_art.jpg",
-      "alt": "Summer Time Bloq Art"
+      "alt": "Summer Time"
     },
-    "shipping": 0
+    "shipping": 50
   },
   {
     "id": "4",
     "categoryId": "1",
-    "name": "Rainforest Green Bloq Art",
-    "price": 25,
-    "inStock": true,
+    "name": "Rainforest Green",
+    "price": 220,
+    "inStock": false,
+    "sold" : 13,
     "img": {
       "src": "assets/img/rainforest_green_bloq_art.jpg",
       "alt": "Rainforest Green Bloq Art"
     },
-    "shipping": 0
+    "shipping": 50
   },
   {
     "id": "5",
     "categoryId": "1",
     "name": "Magma Bloq Art",
-    "price": 25,
+    "price": 250,
     "inStock": true,
+    "sold" : 125,
     "img": {
       "src": "assets/img/magma_bloq_art.jpg",
       "alt": "Magma Bloq Art"
@@ -62,45 +54,36 @@
   {
     "id": "6",
     "categoryId": "1",
-    "name": "Black & Gold Bloq Art",
-    "price": 25,
+    "name": "Black & Gold",
+    "price": 250,
     "inStock": true,
+    "sold" : 50,
     "img": {
       "src": "assets/img/black_gold.jpg",
-      "alt": "Black & Gold Bloq Art"
-    },
-    "shipping": 0
-  },
-  {
-    "id": "7",
-    "categoryId": "1",
-    "name": "Aqua Space Bloq Art",
-    "price": 25,
-    "inStock": true,
-    "img": {
-      "src": "assets/img/aqua_space.jpg",
-      "alt": "Aqua Space"
+      "alt": "Black & Gold"
     },
     "shipping": 0
   },
   {
     "id": "8",
     "categoryId": "1",
-    "name": "Mona Lisa Bloq Art",
-    "price": 25,
+    "name": "Mona Lisa",
+    "price": 350,
     "inStock": true,
+    "sold" : 220,
     "img": {
       "src": "assets/img/mona_lisa.jpg",
       "alt": "Bloq Art - Mona Lisa"
     },
-    "shipping": 0
+    "shipping": 50
   },
   {
     "id": "9",
     "categoryId": "1",
-    "name": "Van Gogh Portrait Bloq Art",
-    "price": 25,
+    "name": "Van Gogh Portrait",
+    "price": 330,
     "inStock": true,
+    "sold" : 212,
     "img": {
       "src": "assets/img/van_gogh.jpg",
       "alt": "Van Gogh Portrait Bloq Art"
@@ -110,9 +93,10 @@
   {
     "id": "10",
     "categoryId": "1",
-    "name": "Starry Night Bloq Art",
-    "price": 25,
-    "inStock": true,
+    "name": "Starry Night",
+    "price": 400,
+    "inStock": false,
+    "sold" : 130,
     "img": {
       "src": "assets/img/starry_night.jpg",
       "alt": "Starry Night Bloq Art"
@@ -122,9 +106,10 @@
   {
     "id": "11",
     "categoryId": "1",
-    "name": "Girl With Pearl Earring Bloq Art",
-    "price": 25,
+    "name": "Girl With Pearl Earring",
+    "price": 500,
     "inStock": true,
+    "sold" : 222,
     "img": {
       "src": "assets/img/girl_with_pearl_earring.jpg",
       "alt": "Girl With Pearl Earring Bloq Art"
@@ -135,25 +120,27 @@
     "id": "12",
     "categoryId": "2",
     "name": "Fluffy Mona Lisa",
-    "price": 25,
+    "price": 450,
     "inStock": true,
+    "sold" : 333,
     "img": {
       "src": "assets/img/mona_lisa_fluffy.jpg",
       "alt": "Fluffy Mona Lisa"
     },
-    "shipping": 0
+    "shipping": 100
   },
   {
     "id": "13",
     "categoryId": "2",
     "name": "Fluffy Night",
-    "price": 25,
+    "price": 400,
     "inStock": true,
+    "sold" : 225,
     "img": {
       "src": "assets/img/fluffy_night.jpg",
       "alt": "Fluffy Night"
     },
-    "shipping": 0
+    "shipping": 100
   },
   {
     "id": "14",
@@ -161,11 +148,12 @@
     "name": "Leontina vase",
     "price": 40,
     "inStock": true,
+    "sold" : 156,
     "img": {
       "src": "assets/img/leontina_vase.jpg",
       "alt": "Leontina vase"
     },
-    "shipping": 0
+    "shipping": 20
   },
   {
     "id": "15",
@@ -173,11 +161,12 @@
     "name": "Eva vase",
     "price": 25,
     "inStock": true,
+    "sold" : 263,
     "img": {
       "src": "assets/img/eva_vase.jpg",
       "alt": "Eva vase"
     },
-    "shipping": 0
+    "shipping": 20
   },
   {
     "id": "16",
@@ -185,6 +174,7 @@
     "name": "Bronzini vase",
     "price": 25,
     "inStock": true,
+    "sold" : 123,
     "img": {
       "src": "assets/img/bronzini_vase.jpg",
       "alt": "Bronzini vase"
@@ -196,6 +186,7 @@
   "name": "Karolina vase",
   "price": 25,
   "inStock": true,
+  "sold" : 64,
   "img": {
     "src": "assets/img/karolina_vase.jpg",
     "alt": "Karolina vase"

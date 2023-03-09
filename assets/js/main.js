@@ -14,18 +14,20 @@ window.onload = () =>{
     console.log(url)
     if(url.indexOf('artworks') != -1){
         pageArtworks();
+        getData('categories', printCategories);
     }
     if(url.indexOf('cart') != -1){
         pageCart();
-        console.log('provera')
     }
     else{
         index();
     }
     getData('meni', printNavAndFooter);
 
-    getData('products', productsInCart)
-    function printNav(data){
+
+
+
+        function printNav(data){
         console.log(data)
         let htmlNav = '';
         for (let i = 0; i < data.length; i++) {
@@ -68,198 +70,353 @@ window.onload = () =>{
         $("#content").html(html);
     }
 
-
-
-    function pageArtworks(){
-        getData('products', artworks);
-        sortByPrice();
-        getData('categories', printCategories);
-        getData("products", filterCategory);
-        getData('products', sortPrice);
-        shippingCost();
-        availableProducts();
-        getData('products', filterShipping);
-        getData('products', filterAvailable);
-        function artworks(data){
-            let printHtml = '';
-            for(let art of data){
-                printHtml += `<div class="col-3 mx-1 my-3">
+    function artworks(data){
+        let printHtml = '';
+        console.log(data)
+        data = filterCategory(data);
+        data = sortPrice( data);
+        data = dostupnostFilter(data);
+        data = filterShipping(data);
+        for(let art of data){
+            printHtml += `<div class="col-3 mx-1 my-3">
             <div class="card h-100 w-100">
               <img src="${art.img.src}" class="card-img-top" alt="${art.img.alt}">
               <div class="card-body d-flex flex-column align-items-center">
                 <h5 class="card-title">${art.name}</h5>
-                <p>Price: ${art.price}</p>
+                <p>Price: ${art.price}.00$</p>
                 <button type="button" class="btn btn-primary button purchase" data-id="${art.id}">Purchase Now</button>
               </div>
               <div class="card-footer">
-                <small class="text-muted">Shipping: ${art.shipping}$</small>
+                <small class="text-muted">Shipping: ${art.shipping}.00$</small>
               </div>
                 </div>
              </div>`
+        }
+        $(".arts").html(printHtml);
+    }
+    function printCategories(data){
+        let html = "";
+        data.forEach(cat => {
+            html += `<li class="list-group-item border border-0">
+					   <input type="checkbox" value="${cat.id}" class="category" name="categories"/> ${cat.name}
+					</li>`;
+        });
+        document.getElementById('categories').innerHTML = html;
+        categories = data;
+        getData('products', artworks);
+        $('.category').change(promenaFiltera);
+    }
+    function filterCategory(data){
+        let selectedCategories = [];
+        $('.category:checked').each(function(el){
+            selectedCategories.push(parseInt($(this).val()));
+            console.log(selectedCategories)
+        });
+        if(selectedCategories.length != 0){
+            let products = []
+            for(let el of data){
+                for(let cat of selectedCategories){
+                    if(el.categoryId == cat){
+                        products.push(el)
+                    }
+                }
             }
-            $(".arts").html(printHtml);
-
+            return products;
         }
-
-        function shippingCost(){
-            let shippingCosts = [{'Value' : '0', 'Name' : 'Free shipping'}, {'Value' : '1', 'Name' : 'All'}];
-            listsRadioBtn('Shipping', shippingCosts, '#shipping');
+        else{
+            return data;
         }
-        function availableProducts(){
-            let available = [{'Value' : '0', 'Name' : 'Available for shipping'}, {'Value' : '1', 'Name' : 'All'}];
-            listsRadioBtn('Available', available, '#available');
+    }
+    function promenaFiltera(){
+        getData("products", artworks);
+    }
+    function availableProducts(){
+        let available = [{'id' : 1, 'name' : 'Available for shipping'}, {'id' : 2, 'name' : 'Not available'}];
+        makeDdl('Available', available, '#available');
+        $('#available').change(promenaFiltera);
+    }
+    availableProducts();
+    function dostupnostFilter(data){
+        var available = $('#available').find(":selected").val();
+        console.log(available)
+        if(available == 1){
+            return data.filter(x => x.inStock);
         }
-        // function printCategories(data){
-        //     let categories = data;
-        //     makeDdl('Select category', categories, '#categories');
-        // }
-        function sortByPrice(){
-            let price = [{'id':'asc', 'name':'rastucoj'}, {'id':'desc', 'name':'opadajucoj'}];
-            makeDdl('sortiraj po ceni', price, '#price');
+        else if(available == 2){
+            return data.filter(x => !x.inStock);
         }
-        function printCategories(data){
-            let categories = data;
-            let innerHtml = '';
-            for(let category of categories){
-                innerHtml += `<div class="col-12 mt-3"><lable>${category.name}</lable>
-                            <input type="checkbox" value="${category.id}" name="cb${category.id}" class="category mx-2" data-id="${category.id}"></div>`
-            }
-            $('#categories').html(innerHtml);
+        return data
+    }
+    function printSortByPrice(){
+        let price = [{'id':'asc', 'name':'Ascending'}, {'id':'desc', 'name':'Descending'}, {'id':'popular', 'name':'Most popular'}, {'id':'new', 'name':'New products'}];
+        makeDdl('Sort', price, '#price');
+    }
+    printSortByPrice();
+    function sortPrice(data){
+        var sort = $('#price').find(":selected").val();
+        if (sort == 'asc'){
+            return data.sort((a,b) => a.price >b.price ? 1 : -1);
         }
-        //filters
-        function filterCategory(data){
-            var products = data;
-            $('.category').change(function(){
-                let id = $(this).data('id');
-                console.log(id)
-                let count = 0;
-                let filtriraniProizvodi = [];
-                for(let product of products){
-                    if(id == product.categoryId){
-                        filtriraniProizvodi.push(product)
+        else if(sort == 'desc'){
+            return data.sort((a,b) => a.price < b.price ? 1 : -1);
+        }
+        else if(sort = "popular"){
+            return data.sort((a,b) => a.sold < b.sold ? 1 : -1);
+        }
+        else{
+            return data
+        }
+    }
+    $("#price").change(promenaFiltera);
+    function shippingCost(){
+        let shippingCosts = [{'id' : 1, 'name' : 'Free shipping'}, {'id' : 2, 'name' : 'Not free'}];
+        makeDdl('Shipping', shippingCosts, '#shipping');
+        $('#shipping').change(promenaFiltera);
+    }
+    shippingCost();
+    function filterShipping(data){
+        var shipping = $('#shipping').find(":selected").val();
+        console.log(shipping)
+        if(shipping == 1){
+            return data.filter(x => !x.shipping);
+        }
+        else if(shipping == 2){
+            return data.filter(x => x.shipping > 0);
+        }
+        return data
+    }
+    function pageArtworks(){
+        getData('products', productsInCart)
+        function productsInCart(data){
+            $(document).on("click",".purchase",function(){
+                var id = $(this).data('id');
+                var productsInCart = getItemsFromLocalStorage('productsInCart');
+                if(productsInCart){
+                    let le = existsInCart();
+                    if(existsInCart()){
+                        addAmount();
                     }
-                }
-                artworks(filtriraniProizvodi)
-            })
-        }
-        function filterShipping(data){
-            var products = data;
-            var filtriraniProizvodi =[];
-            $("input:radio[name=rbShipping]").change(function(){
-                let checked = $("input:radio[name=rbShipping]:checked").val();
-                if(checked == 1){
-                    artworks(products);
-                }
-                else {
-                    for(let product of products){
-                        if(checked == product.shipping){
-                            filtriraniProizvodi.push(product)
-                        }
+                    else {
+                        putInCart();
                     }
-                    artworks(filtriraniProizvodi)
-                }
-            })
-        }
-        function filterAvailable(data){
-            var products = data;
-            var filtriraniProizvodi =[];
-            $("input:radio[name=rbAvailable]").change(function(){
-                let checked = $("input:radio[name=rbAvailable]:checked").val();
-                if(checked == 1){
-                    artworks(products);
-                }
-                else {
-                    for(let product of products){
-                        if(product.inStock == 1){
-                            filtriraniProizvodi.push(product)
-                        }
-                    }
-                    artworks(filtriraniProizvodi)
-                }
-            })
-        }
-        function sortPrice(data){
-            $('#price').change(function(){
-                let cena = $('#price').find(":selected").val();
-                console.log(cena)
-                if (cena == 'asc'){
-                    data.sort((a,b) => a.price >b.price ? 1 : -1)
                 }
                 else{
-                    data.sort((a,b) => a.price < b.price ? 1 : -1)
+                    firstItem();
+                }
+                function putInCart(){
+                    let products = getItemsFromLocalStorage('productsInCart');
+                    let newProduct = [];
+                    newProduct = {
+                        id: id,
+                        amount: 1
+                    }
+                    products.push(newProduct);
+                    setItemToLocalStorage('productsInCart', products)
+                }
+                function existsInCart(){
+                    for(obj of productsInCart){
+                        if(obj.id == id){
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                function addAmount(){
+                    let products = getItemsFromLocalStorage('productsInCart')
+                    for(let i=0; i<products.length; i++){
+                        if(products[i].id == id){
+                            products[i].amount += 1;
+                        }
+                    }
+                    setItemToLocalStorage('productsInCart', products);
+                }
+                function firstItem (){
+                    let products = [];
+                    products[0] = {
+                        id: id,
+                        amount: 1
+                    }
+                    setItemToLocalStorage("productsInCart", products);
                 }
 
-                artworks(data)
+
+                console.log(getItemsFromLocalStorage('productsInCart'))
             })
         }
     }
 
-    function productsInCart(data){
-        $('.purchase').click(function (){
-            var id = $(this).data('id');
-            var productsInCart = getItemsFromLocalStorage('productsInCart');
-            if(productsInCart){
-                let le = existsInCart();
-                console.log(existsInCart())
-                if(existsInCart()){
-                    addAmount();
-                }
-                else {
-                    putInCart();
-                }
+    function pageCart(){
+        getData('products', printProduct)
+        function printProduct(data) {
+            let productsInLS = getItemsFromLocalStorage('productsInCart');
+            let innerHtml = '';
+            let allProducts = data;
+            let count = 0;
+            let shipping = 0;
+            let price = 0;
+            if(productsInLS === null || productsInLS === []){
+                innerHtml = `<div class="row d-flex justify-content-center flex-column align-items-center">
+                            <h1 class="blueLetters text-center mt-5">Your cart is empty</h1>
+                            <img src="assets/img/empty_cart.jpg" alt="EmptyCart" class="col-6 mt-5">
+                            <button class="btn button col-2 mt-5"><a href="artworks.html">Go back to shopping</a></button>
+                        </div>`
+                $('#print').html(innerHtml);
+                $('#form').hide();
+                $('#deleteAll').hide();
             }
             else{
-                firstItem();
-            }
-            function putInCart(){
-                let products = getItemsFromLocalStorage('productsInCart');
-                let newProduct = [];
-                newProduct = {
-                    id: id,
-                    amount: 1
+                innerHtml = `<div class="container-fluid mt-5 d-flex flex-column align-items-center">
+                            <h1 class="text-center blueLetters">Products</h1>
+                            <span class="dot mb-5"></span>
+                            <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                                <table class="col-12 text-center">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Picture</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Manage</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="printProductsInCart">`
+                for(let el of allProducts){
+                    for (let pr of productsInLS)
+                        if (pr.id == el.id){
+                            count++;
+                            innerHtml += `<tr>
+                        <th scope="row">${count}</th>
+                        <td class="col-2"><img src="${el.img.src}" alt="${el.img.alt}" class="col-5 pt-3"/></td>
+                        <td>${el.name}</td>
+                        <td>${el.price}.00$</td>
+                        <td><button class="btn button plus" data-plus="${el.id}"><i class="fa-solid fa-plus"></i></button> ${pr.amount} <button class="btn button minus" data-minus="${el.id}"><i class="fa-solid fa-minus"></i></button></td>
+                        <td><button class="btn button deleteItem" data-delete="${el.id}">Delete from cart</button></td>
+                    </tr>`
+                            if (el.shipping != 0){
+                                shipping += el.shipping
+                            }
+                            price += el.price * pr.amount;
+                        }
                 }
-                products.push(newProduct);
-                setItemToLocalStorage('productsInCart', products)
+                let totalPrice = shipping + price;
+                innerHtml += `</tbody>
+                                    </table>
+                                </div>`
+                let bill = `<h1 class="text-center blueLetters pt-3">Order details</h1>
+                            <p class="px-5 fs-5 py-3">Subtotal: ${price}.00$</p>
+                            <p class="px-5 fs-5 py-3">Shipping: ${shipping}.00$</p>
+                            <p class="px-5 fs-5 py-3">Total: ${totalPrice}.00$</p>`
+                $('#bill').html(bill);
+                $('#form').show();
             }
-            function existsInCart(){
-                for(obj of productsInCart){
-                    if(obj.id == id){
-                        return true;
-                    }
-                }
-                return false;
-            }
-            function addAmount(){
-                let products = getItemsFromLocalStorage('productsInCart')
-                for(let i=0; i<products.length; i++){
-                    if(products[i].id == id){
-                        products[i].amount += 1;
-                    }
-                }
-                setItemToLocalStorage('productsInCart', products);
-            }
-            function firstItem (){
-                let products = [];
-                products[0] = {
-                    id: id,
-                    amount: 1
-                }
-                setItemToLocalStorage("productsInCart", products);
-            }
+            $('#print').html(innerHtml);
+        }
 
-
-            console.log(getItemsFromLocalStorage('productsInCart'))
+        $('#deleteAll').click(function(){
+            localStorage.removeItem('productsInCart');
+            printProduct();
+        })
+        $('#buy').click(function() {
+            formValidation();
         })
     }
-    function pageCart(){
-        printProduct();
-        let product = getItemsFromLocalStorage('productInCart');
-        console.log(product)
-        console.log('proba')
-        function printProduct() {
+    function formValidation(){
+        event.preventDefault();
+        let name, email, address;
+        name = $('#name');
+        email = $('#email');
+        address = $('#address');
+        var count = 0;
+        var regexForName = /^[A-ZŠĐŽĆČ][a-zšđžćč]{2,15}(\s[A-ZŠĐŽĆČ][a-zšđžćč]{2,15})?$/;
+        var regexForEmail = /^[a-z]((\.|-|_)?[a-z0-9]){2,}@[a-z]((\.|-|_)?[a-z0-9]+){2,}\.[a-z]{2,6}$/i;
+        let regexForAddress = /^[\w\.]+(,?\s[\w\.]+){2,8}$/;
+        if (name.val() == ''){
+            name.addClass('error')
+        }
+        else if(!regexForName.test(name.val())){
+            $('#spanName').html("You didn`t enter name correctly.").css('display', 'block');
+        }
+        else{
+            $('#spanName').css("display", "none");
+            name.removeClass('error');
+            count++
+        }
+        if (email.val() == ''){
+            email.addClass('error')
+        }
+        else if(!regexForEmail.test(email.val())){
+            $('#spanEmail').html("You didn`t enter email correctly.").css('display', 'block');
+        }
+        else{
+            $('#spanEmail').css("display", "none");
+            email.removeClass('error');
+            count++
+        }
+        if (address.val() == ''){
+            address.addClass('error')
+        }
+        else if(!regexForAddress.test(address.val())){
+            $('#spanAddress').html("You didn`t enter address correctly.").css('display', 'block');
+        }
+        else{
+            $('#spanAddress').css("display", "none");
+            address.removeClass('error');
+            count++
+        }
+        if(count==3){
+            console.log('uspesno')
+        }
+
+    }
+
+
+    $(document).on("click",".deleteItem",function(){
+        let id = $(this).data('delete');
+        let products = getItemsFromLocalStorage('productsInCart');
+        let result = products.filter(c => c.id !== id);
+        console.log(products)
+        if(products.length === 1){
+            innerHtml = `<div class="row d-flex justify-content-center flex-column align-items-center">
+                        <h1 class="blueLetters text-center mt-5">Your cart is empty</h1>
+                        <img src="assets/img/empty_cart.jpg" alt="EmptyCart" class="col-6 mt-5">
+                        <button class="btn button col-2 mt-5"><a href="artworks.html">Go back to shopping</a></button>
+                    </div>`
+            console.log($('#form'), $('#deleteAll'), $('#print'))
+            $('#form').hide();
+            $('#deleteAll').hide();
+            $('#print').html(innerHtml);
+            setItemToLocalStorage('productsInCart', null)
 
         }
-    }
+        else {
+            setItemToLocalStorage('productsInCart', result)
+        }
+        pageCart();
+    });
+
+    $(document).on("click",".plus",function(){
+        let id = $(this).data('plus');
+        let products = getItemsFromLocalStorage('productsInCart');
+        for(let el of products){
+            if(el.id === id){
+                el.amount = parseInt(el.amount)+1;
+            }
+        }
+        setItemToLocalStorage('productsInCart', products)
+        pageCart();
+    });
+    $(document).on("click",".minus",function(){
+        let id = $(this).data('minus');
+        let products = getItemsFromLocalStorage('productsInCart');
+        for(let el of products){
+            if(el.id === id){
+                el.amount = (el.amount <= 1) ? 1 : parseInt(el.amount)-1;
+            }
+        }
+        setItemToLocalStorage('productsInCart', products)
+        pageCart();
+    });
     function makeDdl(option0, values, print){
         let html=`<option value="0">${option0}</option>`;
         for(let value of values){
@@ -270,8 +427,8 @@ window.onload = () =>{
     function listsRadioBtn(title, values, print){
         let innerHtml = `<h6>${title}</h6>`;
         for(let value of values){
-            innerHtml += `<input type="radio" name="rb${title}" value="${value.Value}"/>
-            <label>${value.Name}</label><br/>`;
+            innerHtml += `<div class="col-12"><input type="radio" name="rb${title}" value="${value.Value}"/>
+            <label>${value.Name}</label></div>`;
         }
         $(print).html(innerHtml);
     }
@@ -284,5 +441,5 @@ window.onload = () =>{
         return JSON.parse(localStorage.getItem(itemKey));
     }
 
-
+    $('.category').change(artworks);
 }

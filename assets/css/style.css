@@ -1,6 +1,10 @@
 .logo{
     width: 60%;
 }
+a{
+    text-decoration: none;
+    color: #103948;
+}
 .basket{
     font-size: 30px;
     color: #c8bfe7;
@@ -55,6 +59,9 @@
 .blue{
     background: #103948;
 }
+.blueLetters{
+    color: #103948;
+}
 .fut li a{
     color: white !important;
 }
@@ -66,4 +73,30 @@
     border-bottom: 3px solid #c8bfe7;
     width: 5%;
     margin: 0px auto;
+}
+tr{
+    width: 50%;
+}
+input{
+    width: 60%;
+}
+#form label{
+    padding: 10px 5px;
+    color: #103948;
+}
+#form input{
+    border: none;
+    border-bottom: 1px solid #103948;
+}
+input:focus{
+    outline: none;
+}
+#form span{
+    display: none;
+}
+.error{
+    border: 1px solid red !important;
+}
+.span{
+    display: none;
 }
