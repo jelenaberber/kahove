@@ -50,7 +50,7 @@ window.onload = () =>{
         function printContent(data) {
             let html = '';
             for (let element of contents) {
-                html += `<div class="col-${element.col}">
+                html += `<div class="col-lg-${element.col} col-md-12 col-sm-12">
                 <h1 class="text-center">${element.title}</h1>
                 <p>${element.content}</p>
             </div>`
@@ -78,13 +78,13 @@ window.onload = () =>{
         data = dostupnostFilter(data);
         data = filterShipping(data);
         for(let art of data){
-            printHtml += `<div class="col-3 mx-1 my-3">
+            printHtml += `<div class="col-lg-3 col-md-5 col-sm-12 mx-1 my-3">
             <div class="card h-100 w-100">
               <img src="${art.img.src}" class="card-img-top" alt="${art.img.alt}">
               <div class="card-body d-flex flex-column align-items-center">
                 <h5 class="card-title">${art.name}</h5>
                 <p>Price: ${art.price}.00$</p>
-                <button type="button" class="btn btn-primary button purchase" data-id="${art.id}">Purchase Now</button>
+                <button type="button" class="btn button purchase" data-id="${art.id}">Purchase Now</button>
               </div>
               <div class="card-footer">
                 <small class="text-muted">Shipping: ${art.shipping}.00$</small>
@@ -257,8 +257,8 @@ window.onload = () =>{
             if(productsInLS === null || productsInLS === []){
                 innerHtml = `<div class="row d-flex justify-content-center flex-column align-items-center">
                             <h1 class="blueLetters text-center mt-5">Your cart is empty</h1>
-                            <img src="assets/img/empty_cart.jpg" alt="EmptyCart" class="col-6 mt-5">
-                            <button class="btn button col-2 mt-5"><a href="artworks.html">Go back to shopping</a></button>
+                            <img src="assets/img/empty_cart.jpg" alt="EmptyCart" class="col-lg-6 col-md-10 col-sm-12 mt-5">
+                            <button class="btn button col-lg-2 col-md-3 mt-5"><a href="artworks.html">Go back to shopping</a></button>
                         </div>`
                 $('#print').html(innerHtml);
                 $('#form').hide();
@@ -269,17 +269,7 @@ window.onload = () =>{
                             <h1 class="text-center blueLetters">Products</h1>
                             <span class="dot mb-5"></span>
                             <div class="col-12 d-flex flex-column justify-content-center align-items-center">
-                                <table class="col-12 text-center">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">Picture</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Amount</th>
-                                        <th scope="col">Manage</th>
-                                    </tr>
-                                    </thead>
+                                <table class="col-12 d-flex flex-wrap text-center">
                                     <tbody id="printProductsInCart">`
                 for(let el of allProducts){
                     for (let pr of productsInLS)
@@ -287,11 +277,11 @@ window.onload = () =>{
                             count++;
                             innerHtml += `<tr>
                         <th scope="row">${count}</th>
-                        <td class="col-2"><img src="${el.img.src}" alt="${el.img.alt}" class="col-5 pt-3"/></td>
-                        <td>${el.name}</td>
-                        <td>${el.price}.00$</td>
-                        <td><button class="btn button plus" data-plus="${el.id}"><i class="fa-solid fa-plus"></i></button> ${pr.amount} <button class="btn button minus" data-minus="${el.id}"><i class="fa-solid fa-minus"></i></button></td>
-                        <td><button class="btn button deleteItem" data-delete="${el.id}">Delete from cart</button></td>
+                        <td class="col-lg-2 col-sm-10"><img src="${el.img.src}" alt="${el.img.alt}" class="col-5 pt-3"/></td>
+                        <td class="col-lg-2 col-sm-5">${el.name}</td>
+                        <td class="col-lg-2 col-sm-5">${el.price}.00$</td>
+                        <td class="col-lg-2 col-sm-5"><button class="btn button plus" data-plus="${el.id}"><i class="fa-solid fa-plus"></i></button> ${pr.amount} <button class="btn button minus" data-minus="${el.id}"><i class="fa-solid fa-minus"></i></button></td>
+                        <td class="col-lg-2 col-sm-5"><button class="btn button deleteItem" data-delete="${el.id}">Delete from cart</button></td>
                     </tr>`
                             if (el.shipping != 0){
                                 shipping += el.shipping
@@ -320,6 +310,11 @@ window.onload = () =>{
         $('#buy').click(function() {
             formValidation();
         })
+        $('#close').click(function (){
+            $('#modal-2').hide();
+            localStorage.removeItem('productsInCart');
+            printProduct();
+        })
     }
     function formValidation(){
         event.preventDefault();
@@ -330,7 +325,7 @@ window.onload = () =>{
         var count = 0;
         var regexForName = /^[A-ZŠĐŽĆČ][a-zšđžćč]{2,15}(\s[A-ZŠĐŽĆČ][a-zšđžćč]{2,15})?$/;
         var regexForEmail = /^[a-z]((\.|-|_)?[a-z0-9]){2,}@[a-z]((\.|-|_)?[a-z0-9]+){2,}\.[a-z]{2,6}$/i;
-        let regexForAddress = /^[\w\.]+(,?\s[\w\.]+){2,8}$/;
+        let regexForAddress = /^(([A-ZŠĐČĆŽ][a-zščćđž\d]+)|([0-9][1-9]*\.?))(\s[A-Za-zŠĐŽĆČščćđž\d]+){0,7}\s(([1-9][0-9]{0,5}[\/-]?[A-Z])|([1-9][0-9]{0,5})|(BB))\.?$/;
         if (name.val() == ''){
             name.addClass('error')
         }
@@ -365,9 +360,8 @@ window.onload = () =>{
             count++
         }
         if(count==3){
-            console.log('uspesno')
+            $('#modal-2').show();
         }
-
     }
 
 
