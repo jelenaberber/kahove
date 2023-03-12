@@ -108,7 +108,7 @@ input:focus{
     bottom: 0;
     background: rgba(0,0,0,0.5);
     z-index: 2;
-    display: block;
+    display: none;
 }
 .m-cont{
     background-color: white;

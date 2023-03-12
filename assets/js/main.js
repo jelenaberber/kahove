@@ -102,7 +102,7 @@ window.onload = () =>{
 					</li>`;
         });
         document.getElementById('categories').innerHTML = html;
-        categories = data;
+        // categories = data;
         getData('products', artworks);
         $('.category').change(promenaFiltera);
     }
@@ -148,7 +148,7 @@ window.onload = () =>{
         return data
     }
     function printSortByPrice(){
-        let price = [{'id':'asc', 'name':'Ascending'}, {'id':'desc', 'name':'Descending'}, {'id':'popular', 'name':'Most popular'}, {'id':'new', 'name':'New products'}];
+        let price = [{'id':'asc', 'name':'Ascending'}, {'id':'desc', 'name':'Descending'}, {'id':'popular', 'name':'Most popular'}];
         makeDdl('Sort', price, '#price');
     }
     printSortByPrice();
